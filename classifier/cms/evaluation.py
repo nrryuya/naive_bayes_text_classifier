@@ -17,7 +17,7 @@ class Evaluation():
         test_data = []#リスト型として作成
         for i in range(1,9):
             category = serial_cat[i] #記事のカテゴリー
-            for j in range(1,3):
+            for j in range(1,6):
                 target_html = requests.get('https://gunosy.com/categories/'+str(i)+'?page='+str(j)).text
                 root = lxml.html.fromstring(target_html)
                 article_list = root.cssselect('.list_content .list_title a') #どうしてリストとして取得されるのだろうか。
@@ -76,7 +76,3 @@ e = Evaluation()
 print(e.evaluate())
 print('Evaluation done')
 
-# range(1,3)
-# (env1) c:\work\gunosy\classifier\cms>python evaluation.py
-# {'コラム': 0.825, '国内': 0.525, '海外': 0.675, '合計': 0.734375, 'エンタメ': 0.8, 'スポーツ': 0.9, 'おもしろ': 0.2, 'IT・科学': 0.95, 'グルメ': 1.0}
-# Evaluation done
