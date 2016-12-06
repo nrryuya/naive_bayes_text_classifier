@@ -1,0 +1,7 @@
+cssselect==1.0.0
+Django==1.10.2
+django-bootstrap-form==3.2.1
+Janome==0.2.8
+lxml==3.6.4
+numpy==1.11.2
+requests==2.12.1
