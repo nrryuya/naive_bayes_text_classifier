@@ -8,9 +8,10 @@ class ArticleForm(ModelForm):
     class Meta:
         model = Article
         fields = ('title', 'url', 'category', )
-        
+
+
 class UrlForm(forms.Form):
-    article_url =  forms.CharField(
+    article_url = forms.CharField(
         label='URL',
         max_length=255,
         required=True,
