@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from cms.models import Article
 from cms.forms import ArticleForm, UrlForm
-from cms.classifier import Classifying  # @UnresolvedImport
+from classifier.classifier import Classifying  # @UnresolvedImport
 
 
 def article_list(request):

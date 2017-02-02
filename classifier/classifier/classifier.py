@@ -2,7 +2,7 @@ import math
 import sys
 import os
 import pickle
-from cms.scraper import get_title, extract_words
+from scraper.scraper import get_title, extract_words
 
 
 class Classifying():

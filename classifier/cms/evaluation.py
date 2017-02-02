@@ -1,4 +1,4 @@
-from cms.classifier import Classifying
+from classifier.classifier import Classifying
 import lxml.html  # @UnresolvedImport
 import requests
 import sys
