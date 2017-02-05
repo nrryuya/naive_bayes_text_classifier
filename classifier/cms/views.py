@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from cms.models import Article
 from cms.forms import ArticleForm, UrlForm
-from cms.classifier import Classifying  # @UnresolvedImport
+from classifier.classifier import Classifier  # @UnresolvedImport
 
 
 def article_list(request):
@@ -35,9 +35,9 @@ def article_edit(request, article_id=None):
             form = UrlForm(request.POST)
             if form.is_valid():  # フォームのバリデーション
                 url = form.cleaned_data['article_url']
-                title, url, category = Classifying().classify(
+                title, url, category = Classifier().classify(
                     url)  # データベースの追加をしてから値も返す。
-                Classifying().save_article(title, url, category)
+                Classifier().save_article(title, url, category)
                 return render(request, 'cms/article_new.html',
                               dict(title=title, url=url, category=category))
 

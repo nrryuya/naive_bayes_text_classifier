@@ -1,9 +1,10 @@
 import lxml.html  # @UnresolvedImport
 import requests
-from cms.scraper import extract_words
+from scraper.scraper import extract_words
 import pickle
 import sys
 import os
+from django.conf import settings
 sys.path.append(os.pardir)
 
 

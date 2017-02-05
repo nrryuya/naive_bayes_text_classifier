@@ -6,7 +6,7 @@ from django.conf import settings
 from cms.scraper import get_title, extract_words
 
 
-class Classifying():
+class Classifier():
 
     def __init__(self):
         self.categories = set(
@@ -71,7 +71,7 @@ class Classifying():
         Article.objects.create(
             title=title, url=url, category=category)  # データベースに保存
 
-# c=Classifying()
+# c=classifier()
 # print(c.score(['ドジャース','鍋','可能']))
 
 # with open('word_count.pickle', mode='rb') as w:
