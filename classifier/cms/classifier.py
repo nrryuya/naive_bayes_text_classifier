@@ -2,6 +2,7 @@ import math
 import sys
 import os
 import pickle
+from django.conf import settings
 from cms.scraper import get_title, extract_words
 
 
@@ -14,13 +15,19 @@ class Classifying():
 
     def score(self, words):  # 名詞群から事後確率の分子の対数を計算
 
-        BASE = os.path.dirname(os.path.abspath(__file__))
+        # BASE = os.path.dirname(os.path.abspath(__file__))
+        # with open(os.path.join(BASE, 'word_count.pickle'), mode='rb') as w:
+        #     word_count = pickle.load(w)
+        # with open(os.path.join(BASE, 'cat_count.pickle'), mode='rb') as c:
+        #     cat_count = pickle.load(c)
+        # with open(os.path.join(BASE, 'prior_probs.pickle'), mode='rb') as p:
+        #     prior_probs = pickle.load(p)
 
-        with open(os.path.join(BASE, 'word_count.pickle'), mode='rb') as w:
+        with open(os.path.join(settings.PICKLE_PATH, 'word_count.pickle'), mode='rb') as w:
             word_count = pickle.load(w)
-        with open(os.path.join(BASE, 'cat_count.pickle'), mode='rb') as c:
+        with open(os.path.join(settings.PICKLE_PATH, 'cat_count.pickle'), mode='rb') as c:
             cat_count = pickle.load(c)
-        with open(os.path.join(BASE, 'prior_probs.pickle'), mode='rb') as p:
+        with open(os.path.join(settings.PICKLE_PATH, 'prior_probs.pickle'), mode='rb') as p:
             prior_probs = pickle.load(p)
 
         score = {}

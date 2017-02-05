@@ -72,14 +72,20 @@ class Training:  # クラスにする意味があるのだろうか？
 t = Training()
 wordcount, catcount, priorprobs = t.train()
 
-BASE = os.path.dirname(os.path.abspath(__file__))
+# BASE = os.path.dirname(os.path.abspath(__file__))
+#
+# with open(os.path.join(BASE, 'word_count.pickle'), mode='wb') as w:
+#     pickle.dump(wordcount, w)
+# with open(os.path.join(BASE, 'cat_count.pickle'), mode='wb') as c:
+#     pickle.dump(catcount, c)
+# with open(os.path.join(BASE, 'prior_probs.pickle'), mode='wb') as p:
+#     pickle.dump(priorprobs, p)
 
-
-with open(os.path.join(BASE, 'word_count.pickle'), mode='wb') as w:
+with open(os.path.join(settings.PICKLE_PATH, 'word_count.pickle'), mode='wb') as w:
     pickle.dump(wordcount, w)
-with open(os.path.join(BASE, 'cat_count.pickle'), mode='wb') as c:
+with open(os.path.join(settings.PICKLE_PATH, 'cat_count.pickle'), mode='wb') as c:
     pickle.dump(catcount, c)
-with open(os.path.join(BASE, 'prior_probs.pickle'), mode='wb') as p:
+with open(os.path.join(settings.PICKLE_PATH, 'prior_probs.pickle'), mode='wb') as p:
     pickle.dump(priorprobs, p)
 
 
