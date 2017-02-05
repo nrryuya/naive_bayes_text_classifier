@@ -1,4 +1,4 @@
-from classifier.classifier import Classifying
+from classifier.classifier import Classifier
 import lxml.html  # @UnresolvedImport
 import requests
 import sys
@@ -36,7 +36,7 @@ class Evaluation():
     def make_check_data(self, test_data):
         check_data = []  # 要素が辞書型のリスト型
         for d in test_data:
-            title, url, classified_cat = Classifying().classify(d['url'])
+            title, url, classified_cat = classifier().classify(d['url'])
             ans_cat = d['category']
             if classified_cat == ans_cat:
                 true_false = 1
