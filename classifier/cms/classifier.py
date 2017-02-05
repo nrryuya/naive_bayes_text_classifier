@@ -2,6 +2,7 @@ import math
 import sys
 import os
 import pickle
+from collections import defaultdict
 from cms.scraper import get_title, extract_words
 
 
@@ -12,48 +13,46 @@ class Classifying():
             ['エンタメ', 'スポーツ', 'おもしろ', '国内',
              '海外', 'コラム', 'IT・科学', 'グルメ'])  # カテゴリの集合
 
-    def score(self, words):  # 名詞群から事後確率の分子の対数を計算
+    def category_scores(self, words):  # 名詞群から事後確率の分子の対数を計算
 
         BASE = os.path.dirname(os.path.abspath(__file__))
 
         with open(os.path.join(BASE, 'word_count.pickle'), mode='rb') as w:
             word_count = pickle.load(w)
-        with open(os.path.join(BASE, 'cat_count.pickle'), mode='rb') as c:
-            cat_count = pickle.load(c)
+        with open(os.path.join(BASE, 'category_count.pickle'), mode='rb') as c:
+            category_count = pickle.load(c)
         with open(os.path.join(BASE, 'prior_probs.pickle'), mode='rb') as p:
             prior_probs = pickle.load(p)
 
-        score = {}
+        category_scores = defaultdict(int)
         word_probs = {}
-        for cat in self.categories:
-            word_probs[cat] = {}
-            score[cat] = 0  # 他にも書き方あると思われる
-            score[cat] += math.log(prior_probs[cat])
+        for category in self.categories:
+            word_probs[category] = {}
+            category_scores[category] = 0  # 他にも書き方あると思われる
+            category_scores[category] += math.log(prior_probs[category])
             for word in words:
-                if word in word_count[cat]:
-                    word_probs[cat][word] = word_count[
-                        cat][word] / cat_count[cat]
+                if word in word_count[category]:
+                    word_probs[category][word] = word_count[
+                        category][word] / category_count[category]
                 else:
                     # ラプラススムージング
-                    # pickleできる形式の制限からlambdaを使うdefaultdictは使えず
-                    word_probs[cat][word] = 1 / cat_count[cat]
-                    # 全部else側にきてない？
-                score[cat] += math.log(word_probs[cat][word])
-        return score
+                    word_probs[category][word] = 1 / category_count[category]
+                category_scores[category] += math.log(word_probs[category][word])
+        return category_scores
 
-    def best_cat(self, score):  # scoreから、scoreが最大なcatを返す
-        best_cat = None
+    def best_category(self, category_scores):  # scoreから、scoreが最大なcategoryを返す
+        best_category = None
         max_score = -sys.maxsize
-        for cat in self.categories:
-            if score[cat] > max_score:
-                max_score = score[cat]
-                best_cat = cat
-        return best_cat
+        for category in self.categories:
+            if category_scores[category] > max_score:
+                max_score = category_scores[category]
+                best_category = category
+        return best_category
 
     def classify(self, url):
         words = extract_words(url)
-        score = self.score(words)
-        category = self.best_cat(score)  # カテゴリ判別完了
+        category_scores = self.category_scores(words)
+        category = self.best_category(category_scores)  # カテゴリ判別完了
 
         title = get_title(url)
         return title, url, category
@@ -69,11 +68,11 @@ class Classifying():
 
 # with open('word_count.pickle', mode='rb') as w:
 #     word_count = pickle.load(w)
-# with open('cat_count.pickle', mode='rb') as c:
-#     cat_count = pickle.load(c)
+# with open('category_count.pickle', mode='rb') as c:
+#     category_count = pickle.load(c)
 # with open('prior_probs.pickle', mode='rb') as p:
 #     prior_probs = pickle.load(p)
 #
 # # print(word_count)
-# print(cat_count)
+# print(category_count)
 # print(prior_probs)
