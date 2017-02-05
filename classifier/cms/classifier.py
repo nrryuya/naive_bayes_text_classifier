@@ -28,7 +28,6 @@ class Classifying():
         word_probs = {}
         for category in self.categories:
             word_probs[category] = {}
-            category_scores[category] = 0  # 他にも書き方あると思われる
             category_scores[category] += math.log(prior_probs[category])
             for word in words:
                 if word in word_count[category]:
