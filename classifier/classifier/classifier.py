@@ -3,10 +3,11 @@ import sys
 import os
 import pickle
 from collections import defaultdict
-from cms.scraper import get_title, extract_words
+from django.conf import settings
+from scraper.scraper import get_title, extract_words
 
 
-class Classifying():
+class Classifier():
 
     def __init__(self):
         self.categories = set(
@@ -15,13 +16,19 @@ class Classifying():
 
     def category_scores(self, words):  # 名詞群から事後確率の分子の対数を計算
 
-        BASE = os.path.dirname(os.path.abspath(__file__))
+        # BASE = os.path.dirname(os.path.abspath(__file__))
+        # with open(os.path.join(BASE, 'word_count.pickle'), mode='rb') as w:
+        #     word_count = pickle.load(w)
+        # with open(os.path.join(BASE, 'cat_count.pickle'), mode='rb') as c:
+        #     cat_count = pickle.load(c)
+        # with open(os.path.join(BASE, 'prior_probs.pickle'), mode='rb') as p:
+        #     prior_probs = pickle.load(p)
 
-        with open(os.path.join(BASE, 'word_count.pickle'), mode='rb') as w:
+        with open(os.path.join(settings.PICKLE_PATH, 'word_count.pickle'), mode='rb') as w:
             word_count = pickle.load(w)
-        with open(os.path.join(BASE, 'category_count.pickle'), mode='rb') as c:
+        with open(os.path.join(settings.PICKLE_PATH, 'category_count.pickle'), mode='rb') as c:
             category_count = pickle.load(c)
-        with open(os.path.join(BASE, 'prior_probs.pickle'), mode='rb') as p:
+        with open(os.path.join(settings.PICKLE_PATH, 'prior_probs.pickle'), mode='rb') as p:
             prior_probs = pickle.load(p)
 
         category_scores = defaultdict(int)
@@ -62,7 +69,7 @@ class Classifying():
         Article.objects.create(
             title=title, url=url, category=category)  # データベースに保存
 
-# c=Classifying()
+# c=classifier()
 # print(c.score(['ドジャース','鍋','可能']))
 
 # with open('word_count.pickle', mode='rb') as w:
