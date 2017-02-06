@@ -5,15 +5,13 @@ import pickle
 from collections import defaultdict
 from django.conf import settings
 from scraper.scraper import get_title, extract_words
+from classifier.consts import CATEGORY_SET
 
 
 class Classifier():
 
     def __init__(self):
-        self.categories = set(
-            ['エンタメ', 'スポーツ', 'おもしろ', '国内',
-             '海外', 'コラム', 'IT・科学', 'グルメ'])  # カテゴリの集合
-
+        self.categories = CATEGORY_SET
     def category_scores(self, words):  # 名詞群から事後確率の分子の対数を計算
 
         # BASE = os.path.dirname(os.path.abspath(__file__))
