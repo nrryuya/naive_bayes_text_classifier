@@ -1,6 +1,7 @@
 import lxml.html  # @UnresolvedImport
 import requests
 from scraper.scraper import extract_words
+from classifier.consts import CATEGORY_SET, CATEGORY_SERIAL
 import pickle
 import sys
 import os
@@ -11,9 +12,7 @@ sys.path.append(os.pardir)
 class Training:  # クラスにする意味があるのだろうか？
 
     def __init__(self):
-        self.categories = set(
-            ['エンタメ', 'スポーツ', 'おもしろ', '国内',
-             '海外', 'コラム', 'IT・科学', 'グルメ'])  # カテゴリの集合
+        self.categories = CATEGORY_SET  # カテゴリの集合
         self.categorycount = {}      # categorycount[category] カテゴリの出現回数
         self.wordcount = {}     # wordcount[category][word] カテゴリでの単語の出現回数
 
@@ -23,11 +22,9 @@ class Training:  # クラスにする意味があるのだろうか？
 
     # https://gunosy.com/の8つのカテゴリの6～20ページを教師データとして取得
     def make_trainig_data(self):
-        serial_category = {1: 'エンタメ', 2: 'スポーツ', 3: 'おもしろ',
-                           4: '国内', 5: '海外', 6: 'コラム', 7: 'IT・科学', 8: 'グルメ'}
         training_data = []  # リスト型として作成
         for i in range(1, 9):
-            category = serial_category[i]  # 記事のカテゴリー
+            category = CATEGORY_SERIAL[i]  # 記事のカテゴリー
             for j in range(6, 20):
                 target_html = requests.get(
                     'https://gunosy.com/categories/' +
